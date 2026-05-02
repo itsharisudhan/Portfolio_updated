@@ -382,9 +382,9 @@
     transition: transform .4s ease;
   }
   .work-card:first-child .work-thumb { aspect-ratio: 9/10; font-size: 100px; }
-  .work-card:hover .work-thumb { transform: scale(1.05); }
+  .work-card:hover .work-thumb:not(.video-thumb) { transform: scale(1.05); }
 
-  .work-thumb::after {
+  .work-thumb:not(.video-thumb)::after {
     content: '▶';
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0);
@@ -397,7 +397,7 @@
     line-height: 56px; text-align: center;
     pointer-events: none;
   }
-  .work-card:hover .work-thumb::after { transform: translate(-50%, -50%) scale(1); }
+  .work-card:hover .work-thumb:not(.video-thumb)::after { transform: translate(-50%, -50%) scale(1); }
 
   .work-info {
     padding: 16px 20px;
@@ -768,7 +768,7 @@
   </div>
   <div class="work-grid">
     <div class="work-card reveal">
-      <div class="work-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
+      <div class="work-thumb video-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
         <div style="padding:177.78% 0 0 0;position:relative;">
           <iframe 
             src="https://www.youtube.com/embed/4j5pVREVTTk" 
@@ -787,7 +787,7 @@
       </div>
     </div>
     <div class="work-card reveal">
-      <div class="work-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
+      <div class="work-thumb video-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
         <div style="padding:177.78% 0 0 0;position:relative;">
           <iframe src="https://player.vimeo.com/video/1188628453?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
             frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
