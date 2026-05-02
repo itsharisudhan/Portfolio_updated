@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Intern Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #2d9e7f;
+    --pink: #f4a7c3;
+    --yellow: #f5e642;
+    --red: #e84040;
+    --brown: #3b1f1f;
+    --cream: #fdf8f0;
+    --lime: #b8e04a;
+    --dark-teal: #1a7a60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Serif Display', serif;
+    background: var(--cream);
+    color: var(--brown);
+    cursor: crosshair;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 48px;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--brown); font-weight: 700;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; color: var(--brown);
+    position: relative; transition: opacity .2s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 2px; background: var(--red);
+    transition: width .3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* social sidebar */
+  .sidebar {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 16px; z-index: 100;
+  }
+  .sidebar a {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    writing-mode: vertical-rl; text-decoration: none;
+    color: var(--brown); letter-spacing: 2px;
+    text-transform: uppercase; opacity: .6;
+    transition: opacity .2s;
+  }
+  .sidebar a:hover { opacity: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: white;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 40px;
+    margin-bottom: 36px;
+  }
+
+  .hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--brown);
+  }
+
+  .highlight-yellow {
+    background: var(--yellow);
+    font-style: italic;
+    color: var(--red);
+    padding: 0 8px;
+    display: inline;
+  }
+  .highlight-lime {
+    background: var(--lime);
+    font-style: italic;
+    color: var(--red);
+    padding: 0 8px;
+    display: inline;
+  }
+
+  .hero-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 1px;
+    color: var(--brown); opacity: .65;
+    margin-top: 28px;
+  }
+
+  /* basket / tools visual */
+  .hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    height: 500px;
+  }
+  .basket {
+    width: 420px; height: 380px;
+    background: linear-gradient(145deg, #ff4444, #cc2222);
+    border-radius: 12px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 8px 8px 0 var(--brown);
+    overflow: hidden;
+  }
+  .basket::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg, transparent, transparent 18px,
+      rgba(255,255,255,.12) 18px, rgba(255,255,255,.12) 20px
+    ),
+    repeating-linear-gradient(
+      0deg, transparent, transparent 18px,
+      rgba(255,255,255,.12) 18px, rgba(255,255,255,.12) 20px
+    );
+  }
+  .basket-handle {
+    position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 50px;
+    border: 8px solid #cc2222;
+    border-radius: 50px 50px 0 0;
+    border-bottom: none;
+  }
+
+  .tool-float {
+    position: absolute;
+    font-size: 52px;
+    animation: floatTool 3s ease-in-out infinite;
+    filter: drop-shadow(3px 3px 6px rgba(0,0,0,.3));
+    user-select: none;
+  }
+  .tool-float:nth-child(1) { top: 60px; left: 55px; animation-delay: 0s; transform: rotate(-15deg); }
+  .tool-float:nth-child(2) { top: 45px; right: 65px; animation-delay: .5s; transform: rotate(12deg); }
+  .tool-float:nth-child(3) { top: 160px; left: 80px; animation-delay: 1s; transform: rotate(8deg); }
+  .tool-float:nth-child(4) { bottom: 90px; left: 65px; animation-delay: .3s; transform: rotate(-8deg); }
+  .tool-float:nth-child(5) { bottom: 70px; right: 70px; animation-delay: .8s; transform: rotate(18deg); }
+  .tool-float:nth-child(6) { top: 140px; right: 80px; animation-delay: 1.3s; transform: rotate(-20deg); }
+
+  @keyframes floatTool {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-12px) rotate(var(--r, 0deg)); }
+  }
+
+  /* ── SERVICES / TEAL SECTION ── */
+  #services {
+    background: var(--teal);
+    padding: 80px 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: end;
+  }
+
+  .service-item {
+    display: flex; flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 48px;
+    cursor: pointer;
+    transition: transform .3s ease;
+  }
+  .service-item:hover { transform: translateY(-10px); }
+
+  .service-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    filter: drop-shadow(4px 4px 0 rgba(0,0,0,.2));
+    animation: gentleBob 2.5s ease-in-out infinite;
+    display: block;
+  }
+  .service-item:nth-child(1) .service-icon { animation-delay: 0s; }
+  .service-item:nth-child(2) .service-icon { animation-delay: .4s; }
+  .service-item:nth-child(3) .service-icon { animation-delay: .8s; }
+  .service-item:nth-child(4) .service-icon { animation-delay: 1.2s; }
+
+  @keyframes gentleBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .service-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: white;
+    line-height: 1.3;
+  }
+
+  /* checkerboard divider */
+  .checker {
+    height: 40px;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        #f5e642 0px, #f5e642 40px,
+        #3b1f1f 40px, #3b1f1f 80px
+      );
+    position: relative;
+  }
+  .checker::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 10px;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        #e8a0c8 0px, #e8a0c8 40px,
+        #c8d8e8 40px, #c8d8e8 80px
+      );
+  }
+
+  /* ── PINK FOOTER ── */
+  #footer-section {
+    background: var(--pink);
+    text-align: center;
+    padding: 48px 80px 64px;
+  }
+  .footer-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 20px;
+    color: var(--brown);
+    line-height: 1.5;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--cream);
+    padding: 120px 80px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .about-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--red); margin-bottom: 20px;
+  }
+
+  .about-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 28px;
+  }
+
+  .about-text p {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; line-height: 1.9;
+    opacity: .75; margin-bottom: 20px;
+  }
+
+  .about-visual {
+    position: relative; height: 480px;
+  }
+
+  .film-strip {
+    position: absolute; left: 0; top: 30px;
+    width: 180px;
+    background: var(--brown);
+    border-radius: 4px;
+    padding: 12px;
+    transform: rotate(-3deg);
+    box-shadow: 6px 6px 0 var(--teal);
+  }
+  .film-holes {
+    display: flex; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .film-hole {
+    width: 14px; height: 14px;
+    background: #555; border-radius: 2px;
+  }
+  .film-frame {
+    width: 100%; aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 8px 0;
+  }
+
+  .stat-card {
+    position: absolute;
+    background: var(--yellow);
+    border: 3px solid var(--brown);
+    border-radius: 4px;
+    padding: 18px 24px;
+    box-shadow: 4px 4px 0 var(--brown);
+  }
+  .stat-card:nth-of-type(1) { right: 20px; top: 40px; transform: rotate(4deg); }
+  .stat-card:nth-of-type(2) { right: 60px; bottom: 80px; transform: rotate(-2deg); background: var(--pink); }
+  .stat-card:nth-of-type(3) { left: 140px; top: 200px; transform: rotate(2deg); background: var(--lime); }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px; font-weight: 900;
+    color: var(--brown); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; opacity: .7;
+    margin-top: 4px;
+  }
+
+  /* ── WORK SECTION ── */
+  #work {
+    background: var(--brown);
+    padding: 120px 80px;
+    overflow: hidden;
+  }
+
+  .work-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 60px;
+  }
+  .work-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 72px);
+    color: white; font-weight: 900;
+  }
+  .work-header span {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: white; opacity: .4;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .work-card {
+    position: relative; overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #2a1515;
+  }
+
+  .work-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px; position: relative;
+    transition: transform .4s ease;
+  }
+  .work-card:first-child .work-thumb { aspect-ratio: 9/10; font-size: 100px; }
+  .work-card:hover .work-thumb { transform: scale(1.05); }
+
+  .work-thumb::after {
+    content: '▶';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 28px; color: white;
+    background: var(--red);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .3s ease;
+    line-height: 56px; text-align: center;
+    pointer-events: none;
+  }
+  .work-card:hover .work-thumb::after { transform: translate(-50%, -50%) scale(1); }
+
+  .work-info {
+    padding: 16px 20px;
+    background: rgba(255,255,255,.05);
+  }
+  .work-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 16px;
+    color: white; margin-bottom: 4px;
+  }
+  .work-info p {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; color: white; opacity: .4;
+    margin-bottom: 8px;
+  }
+  .tool-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ── CODING SECTION ── */
+  #coding {
+    background: white;
+    padding: 100px 80px;
+  }
+  .coding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+  .code-card {
+    background: var(--cream);
+    border: 3px solid var(--brown);
+    padding: 32px;
+    box-shadow: 8px 8px 0 var(--brown);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .code-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0 var(--brown);
+  }
+  .code-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; margin-bottom: 12px;
+  }
+  .code-card p {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; opacity: .7; margin-bottom: 20px;
+  }
+  .code-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; text-decoration: none;
+    color: var(--red); font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* gradient bg on cards */
+  .work-card:nth-child(1) .work-thumb { background: linear-gradient(135deg, #1a3a5c, #2d7a5a); }
+  .work-card:nth-child(2) .work-thumb { background: linear-gradient(135deg, #5c1a1a, #8a3d1a); }
+  .work-card:nth-child(3) .work-thumb { background: linear-gradient(135deg, #2a1a5c, #5c1a4a); }
+  .work-card:nth-child(4) .work-thumb { background: linear-gradient(135deg, #1a5c1a, #3d5c1a); }
+  .work-card:nth-child(5) .work-thumb { background: linear-gradient(135deg, #5c4a1a, #3a1a1a); }
+
+  /* ── SKILLS ── */
+  #skills {
+    background: var(--teal);
+    padding: 100px 80px;
+  }
+
+  .skills-header {
+    text-align: center; margin-bottom: 60px;
+  }
+  .skills-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 60px);
+    color: white; font-weight: 900;
+  }
+
+  .skills-marquee-wrap {
+    overflow: hidden; margin-bottom: 20px;
+  }
+  .skills-marquee {
+    display: flex; gap: 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .skills-marquee.reverse { animation-direction: reverse; }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .skill-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-radius: 60px;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  .skill-pill span:first-child { font-size: 20px; }
+  .skill-pill span:last-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: white;
+  }
+  .skill-pill.filled {
+    background: white; border-color: white;
+  }
+  .skill-pill.filled span:last-child { color: var(--teal); }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--cream);
+    padding: 120px 80px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+
+  .contact-bg-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 200px; font-weight: 900;
+    color: rgba(0,0,0,.04);
+    white-space: nowrap; pointer-events: none;
+    user-select: none;
+  }
+
+  #contact h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 86px);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 24px; position: relative;
+  }
+  #contact p {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; opacity: .6; margin-bottom: 48px;
+    position: relative;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 20px 48px;
+    text-decoration: none;
+    border-radius: 60px;
+    border: 3px solid var(--brown);
+    box-shadow: 6px 6px 0 var(--brown);
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+  }
+  .cta-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--brown);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--pink);
+    padding: 48px 80px;
+    display: flex; justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    color: var(--brown); opacity: .7;
+  }
+
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--brown);
+    text-decoration: none; opacity: .6;
+    transition: opacity .2s;
+  }
+  .footer-links a:hover { opacity: 1; }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ticker tape */
+  .ticker {
+    background: var(--yellow);
+    overflow: hidden; white-space: nowrap;
+    padding: 14px 0; border-top: 3px solid var(--brown);
+    border-bottom: 3px solid var(--brown);
+  }
+  .ticker-inner {
+    display: inline-flex; gap: 0;
+    animation: marquee 20s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--brown); padding: 0 32px;
+    flex-shrink: 0;
+  }
+  .ticker-item::before { content: '✦ '; color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">HHS ✦ Creative</div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- SOCIAL SIDEBAR -->
+<div class="sidebar">
+  <a href="https://github.com/itsharisudhan" target="_blank">GitHub</a>
+  <a href="#">Instagram</a>
+  <a href="https://www.linkedin.com/in/itsharisudhan/" target="_blank">LinkedIn</a>
+  <a href="https://vimeo.com/user258131269" target="_blank">Vimeo</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text reveal">
+    <div class="hero-tag">Final Year B.Tech Student · Aspiring Video Editor</div>
+    <h1>
+      I edit<br>
+      <span class="highlight-yellow">stories</span><br>
+      that capture<br>
+      emotion and<br>
+      <span class="highlight-lime">frames</span><br>
+      that define<br>
+      the vision.
+    </h1>
+    <p class="hero-sub">Passionate Video Editor · Storyteller · Creative Technologist</p>
+  </div>
+
+  <div class="hero-visual reveal">
+    <div class="basket">
+      <div class="basket-handle"></div>
+      <div class="tool-float">🎬</div>
+      <div class="tool-float">✂️</div>
+      <div class="tool-float">🎞️</div>
+      <div class="tool-float">💻</div>
+      <div class="tool-float">✨</div>
+      <div class="tool-float">📱</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Adobe Premiere Pro</span>
+    <span class="ticker-item">After Effects</span>
+    <span class="ticker-item">CapCut & VN</span>
+    <span class="ticker-item">Social Media Reels</span>
+    <span class="ticker-item">Frontend (React)</span>
+    <span class="ticker-item">Next.js & Supabase</span>
+    <span class="ticker-item">Cinematography</span>
+    <span class="ticker-item">Visual Storytelling</span>
+    <!-- repeat for seamless -->
+    <span class="ticker-item">Adobe Premiere Pro</span>
+    <span class="ticker-item">After Effects</span>
+    <span class="ticker-item">CapCut & VN</span>
+    <span class="ticker-item">Social Media Reels</span>
+    <span class="ticker-item">Frontend (React)</span>
+    <span class="ticker-item">Next.js & Supabase</span>
+    <span class="ticker-item">Cinematography</span>
+    <span class="ticker-item">Visual Storytelling</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-grid">
+    <div class="service-item reveal">
+      <span class="service-icon">🎬</span>
+      <div class="service-label">Video Editing<br>(Pr / Ae / CapCut)</div>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-icon">📱</span>
+      <div class="service-label">Social Media<br>Reels & Shorts</div>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-icon">💻</span>
+      <div class="service-label">Frontend Dev<br>(React / Next.js)</div>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-icon">🎥</span>
+      <div class="service-label">Cinematography<br>& Videography</div>
+    </div>
+  </div>
+</section>
+
+<div class="checker"></div>
+
+<div id="footer-section">
+  <p class="footer-quote">"Video is a puzzle where every cut is a choice that shapes the story."<br>
+  © 2026 by <em>Hari Hara Sudhan</em>. Built with passion.</p>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="film-strip" style="transform: rotate(-3deg)">
+      <div class="film-holes">
+        <div class="film-hole"></div><div class="film-hole"></div>
+        <div class="film-hole"></div><div class="film-hole"></div>
+      </div>
+      <div class="film-frame">🎞️</div>
+      <div class="film-holes">
+        <div class="film-hole"></div><div class="film-hole"></div>
+        <div class="film-hole"></div><div class="film-hole"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-number">1+</div>
+      <div class="stat-label">Year of Passion</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">20+</div>
+      <div class="stat-label">Edits Completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Skill Domains</div>
+    </div>
+  </div>
+
+  <div class="about-text reveal">
+    <p class="about-tag">About Me</p>
+    <h2>Creative Eye.<br>Technical Mind.<br>Always Learning.</h2>
+    <p>I'm Hari Hara Sudhan, a final year B.Tech student who found his true calling behind the timeline. While my academic background is in engineering, my heart is in video editing and visual storytelling. I see every project as a chance to blend technical precision with creative flair.</p>
+    <p>I started with mobile editing in VN and CapCut, quickly realizing that I wanted more control. This led me to Adobe Premiere Pro and After Effects, where I now spend most of my creative energy. I'm passionate about videography and cinematography, always looking for the perfect shot to complement the edit.</p>
+    <p>Beyond editing, I'm a frontend enthusiast. I build web projects using React and JS, and I'm currently exploring Next.js and Supabase. I'm looking for a video editing internship where I can contribute my unique perspective, learn from the best, and grow into a professional creator.</p>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header reveal">
+    <h2>Selected<br><em style="color:var(--yellow)">Work</em></h2>
+    <span>2023 – 2026</span>
+  </div>
+  <div class="work-grid">
+    <div class="work-card reveal">
+      <div class="work-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
+        <div style="padding:177.78% 0 0 0;position:relative;">
+          <iframe 
+            src="https://www.youtube.com/embed/4j5pVREVTTk" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+            title="Motivational Edit">
+          </iframe>
+        </div>
+      </div>
+      <div class="work-info">
+        <h3>Motivational Edit</h3>
+        <p>Short Form · 2025</p>
+        <div class="tool-tag">Premiere Pro</div>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <div class="work-thumb" style="padding: 0; overflow: hidden; background: #000; aspect-ratio: auto; height: auto;">
+        <div style="padding:177.78% 0 0 0;position:relative;">
+          <iframe src="https://player.vimeo.com/video/1188628453?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+            frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+            title="tyler_the_creator_edit">
+          </iframe>
+        </div>
+      </div>
+      <div class="work-info">
+        <h3>Tyler, the Creator Edit</h3>
+        <p>Social Edit · 2025</p>
+        <div class="tool-tag">After Effects</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CODING PROJECTS -->
+<section id="coding">
+  <div class="work-header reveal">
+    <h2 style="color:var(--brown)">Coding<br><em>Projects</em></h2>
+    <span style="color:var(--brown); opacity:0.6">Development</span>
+  </div>
+  <div class="coding-grid">
+    <div class="code-card reveal">
+      <h3>Lead Gen SaaS</h3>
+      <p>A powerful SaaS tool designed to help freelancers find clients easily by aggregating high-quality leads in real-time.</p>
+      <div style="margin-bottom: 20px;">
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">Next.js</div>
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">Vercel</div>
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">SaaS</div>
+      </div>
+      <a href="https://leadgen-kappa-ashy.vercel.app" class="code-link" target="_blank">Visit Live Site →</a>
+    </div>
+    
+    <div class="code-card reveal">
+      <h3>Adversarial & Gen AI Detection</h3>
+      <p>An advanced Machine Learning project focused on identifying adversarial attacks and detecting generative AI content.</p>
+      <div style="margin-bottom: 20px;">
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">Python</div>
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">ML</div>
+        <div class="tool-tag" style="color:var(--brown); border-color:var(--brown)">Gen AI</div>
+      </div>
+      <a href="https://github.com/itsharisudhan/adversarial-attack" class="code-link" target="_blank">View Repository →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-header reveal">
+    <h2>Tools of<br><em>The Trade</em></h2>
+  </div>
+
+  <div class="skills-marquee-wrap">
+    <div class="skills-marquee">
+      <div class="skill-pill filled"><span>🎬</span><span>Premiere Pro</span></div>
+      <div class="skill-pill"><span>✨</span><span>After Effects</span></div>
+      <div class="skill-pill filled"><span>📱</span><span>CapCut</span></div>
+      <div class="skill-pill"><span>✂️</span><span>VN Editor</span></div>
+      <div class="skill-pill filled"><span>🎥</span><span>Videography</span></div>
+      <div class="skill-pill"><span>🎞️</span><span>Cinematography</span></div>
+      <!-- duplicate for loop -->
+      <div class="skill-pill filled"><span>🎬</span><span>Premiere Pro</span></div>
+      <div class="skill-pill"><span>✨</span><span>After Effects</span></div>
+      <div class="skill-pill filled"><span>📱</span><span>CapCut</span></div>
+      <div class="skill-pill"><span>✂️</span><span>VN Editor</span></div>
+      <div class="skill-pill filled"><span>🎥</span><span>Videography</span></div>
+      <div class="skill-pill"><span>🎞️</span><span>Cinematography</span></div>
+    </div>
+  </div>
+
+  <div class="skills-marquee-wrap" style="margin-top:16px">
+    <div class="skills-marquee reverse">
+      <div class="skill-pill"><span>JS</span><span>JavaScript</span></div>
+      <div class="skill-pill filled"><span>⚛️</span><span>React</span></div>
+      <div class="skill-pill"><span>▲</span><span>Next.js</span></div>
+      <div class="skill-pill filled"><span>⚡</span><span>Supabase</span></div>
+      <div class="skill-pill"><span>🎨</span><span>Frontend</span></div>
+      <div class="skill-pill filled"><span>🛠️</span><span>Full Stack</span></div>
+      <!-- duplicate -->
+      <div class="skill-pill"><span>JS</span><span>JavaScript</span></div>
+      <div class="skill-pill filled"><span>⚛️</span><span>React</span></div>
+      <div class="skill-pill"><span>▲</span><span>Next.js</span></div>
+      <div class="skill-pill filled"><span>⚡</span><span>Supabase</span></div>
+      <div class="skill-pill"><span>🎨</span><span>Frontend</span></div>
+      <div class="skill-pill filled"><span>🛠️</span><span>Full Stack</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg-text">HIRE ME</div>
+  <h2 class="reveal">Let's make<br><em>something<br>great.</em></h2>
+  <p class="reveal">I'm actively looking for a video internship where I can learn fast, work hard, and create boldly.</p>
+  <a href="mailto:haricode001@gmail.com" class="cta-btn reveal">Get In Touch →</a>
+</section>
+
+<!-- FOOTER -->
+<div class="checker"></div>
+<footer>
+  <p>© 2026 by Hari Hara Sudhan. Built with passion.</p>
+  <div class="footer-links">
+    <a href="https://github.com/itsharisudhan" target="_blank">GitHub</a>
+    <a href="#">Instagram</a>
+    <a href="https://www.linkedin.com/in/itsharisudhan/" target="_blank">LinkedIn</a>
+    <a href="https://vimeo.com/user258131269" target="_blank">Vimeo</a>
+    <a href="#">Resume ↗</a>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    observer.observe(el);
+    // stagger siblings
+    const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+    const i = siblings.indexOf(el);
+    el.style.transitionDelay = `${i * 0.1}s`;
+  });
+
+  // make first section items visible
+  document.querySelectorAll('#hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 200);
+  });
+</script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+</body>
+</html>
